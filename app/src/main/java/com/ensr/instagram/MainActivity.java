@@ -37,8 +37,8 @@ public class MainActivity extends TabActivity {
         Intent urlIntent = new Intent(this, Url.class);
         urlSpec.setContent(urlIntent);
 
-        mTabHost.addTab(urlSpec);
         mTabHost.addTab(exportSpec);
+        mTabHost.addTab(urlSpec);
         mTabHost.addTab(downloadedSpec);
 
 

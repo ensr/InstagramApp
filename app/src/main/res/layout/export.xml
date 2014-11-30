@@ -40,17 +40,15 @@
     <LinearLayout
         android:id="@+id/llgriedviews"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/lltags"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <GridView
             android:id="@+id/grid_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginTop="5dp"
             android:columnWidth="90dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
