@@ -21,7 +21,8 @@ public class MainActivity extends TabActivity {
         setContentView(R.layout.activity_main);
 
         mTabHost = getTabHost();
-
+        
+        //Sekmelerin tanımlanması
         TabHost.TabSpec downloadedSpec = mTabHost.newTabSpec("downloaded");
         downloadedSpec.setIndicator("Download", null);
         Intent downloadedIntent = new Intent(this, Downloaded.class);
@@ -36,7 +37,8 @@ public class MainActivity extends TabActivity {
         urlSpec.setIndicator("Url", null);
         Intent urlIntent = new Intent(this, Url.class);
         urlSpec.setContent(urlIntent);
-
+        
+        //Sekmelerin oluşturulması
         mTabHost.addTab(exportSpec);
         mTabHost.addTab(urlSpec);
         mTabHost.addTab(downloadedSpec);
