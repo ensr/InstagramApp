@@ -35,7 +35,8 @@ public class FullImage extends Activity {
 
         imageView = (ImageView) findViewById(R.id.ivFullImage);
         Intent i = getIntent();
-
+        
+        //Resim url'si alınarak picasso ile ekrana basıldı
         url = i.getExtras().getString("id");
         Picasso.with(this).load(url).into(imageView);
 
