@@ -25,4 +25,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.3'
     compile files('libs/picasso-2.3.4.jar')
     compile files('libs/volley.jar')
+    compile files('libs/HockeySDK-3.0.2.jar')
 }

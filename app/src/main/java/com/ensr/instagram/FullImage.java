@@ -94,7 +94,7 @@ public class FullImage extends Activity {
             Bitmap bitmap = drawable.getBitmap();
 
             MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,
-                    "test_image", "");
+                    "test_image", "instagramDownload");
 
             mProgressDialog.setMessage("Done.");
 

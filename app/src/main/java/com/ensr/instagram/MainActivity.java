@@ -1,6 +1,5 @@
 package com.ensr.instagram;
 
-import java.util.ArrayList;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +7,8 @@ import android.widget.TabHost;
 import com.ensr.instagram.tabs.Downloaded;
 import com.ensr.instagram.tabs.Export;
 import com.ensr.instagram.tabs.Url;
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 
 
 
@@ -40,7 +41,22 @@ public class MainActivity extends TabActivity {
         mTabHost.addTab(exportSpec);
         mTabHost.addTab(urlSpec);
         mTabHost.addTab(downloadedSpec);
-
-
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkForCrashes();
+        checkForUpdates();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "13a21d418b35141d967f124de71c2ce1");
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this, "13a21d418b35141d967f124de71c2ce1");
+    }
+
 }
