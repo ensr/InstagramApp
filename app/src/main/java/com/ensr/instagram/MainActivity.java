@@ -22,7 +22,8 @@ public class MainActivity extends TabActivity {
         setContentView(R.layout.activity_main);
 
         mTabHost = getTabHost();
-
+        
+        //Sekmelerin tanımlanması
         TabHost.TabSpec downloadedSpec = mTabHost.newTabSpec("downloaded");
         downloadedSpec.setIndicator("Download", null);
         Intent downloadedIntent = new Intent(this, Downloaded.class);
@@ -37,7 +38,8 @@ public class MainActivity extends TabActivity {
         urlSpec.setIndicator("Url", null);
         Intent urlIntent = new Intent(this, Url.class);
         urlSpec.setContent(urlIntent);
-
+        
+        //Sekmelerin oluşturulması
         mTabHost.addTab(exportSpec);
         mTabHost.addTab(urlSpec);
         mTabHost.addTab(downloadedSpec);
@@ -58,5 +60,9 @@ public class MainActivity extends TabActivity {
         // Remove this for store builds!
         UpdateManager.register(this, "13a21d418b35141d967f124de71c2ce1");
     }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> 34f80177666b8fca910cffd550b267c0e4b3efb8

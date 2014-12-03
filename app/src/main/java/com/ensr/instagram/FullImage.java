@@ -35,7 +35,8 @@ public class FullImage extends Activity {
 
         imageView = (ImageView) findViewById(R.id.ivFullImage);
         Intent i = getIntent();
-
+        
+        //Resim url'si alınarak picasso ile ekrana basıldı
         url = i.getExtras().getString("id");
         Picasso.with(this).load(url).into(imageView);
 
@@ -60,7 +61,7 @@ public class FullImage extends Activity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(FullImage.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
+            mProgressDialog.setTitle("Download Image");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setIndeterminate(false);
