@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.ensr.instagram.alert.SweetAlertDialog;
 import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
@@ -26,6 +27,7 @@ public class FullImage extends Activity {
     String url;
     ProgressDialog mProgressDialog;
     ImageView imageView;
+    private Activity context = FullImage.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +60,13 @@ public class FullImage extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Create a progressdialog
-            mProgressDialog = new ProgressDialog(FullImage.this);
-            // Set progressdialog title
-            mProgressDialog.setTitle("Download Image");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+
+            new SweetAlertDialog(context,
+                    SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Resim İndirme.")
+                    .setContentText("Resim İndirildi.")
+                    .show();
+
         }
 
         @Override
@@ -95,11 +95,8 @@ public class FullImage extends Activity {
             Bitmap bitmap = drawable.getBitmap();
 
             MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,
-                    "test_image", "instagramDownload");
+                    "InstagramImage", "instagramDownload");
 
-            mProgressDialog.setMessage("Done.");
-
-            mProgressDialog.dismiss();
         }
     }
 }

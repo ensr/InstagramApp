@@ -60,9 +60,9 @@ public class MainActivity extends TabActivity {
         // Remove this for store builds!
         UpdateManager.register(this, "13a21d418b35141d967f124de71c2ce1");
     }
-<<<<<<< HEAD
+
 
 }
-=======
-}
->>>>>>> 34f80177666b8fca910cffd550b267c0e4b3efb8
+
+
+
