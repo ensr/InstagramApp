@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import static android.widget.GridView.*;
+
 public class ImageAdapter extends BaseAdapter {
 	ArrayList<String> pictureUrl;
 	Context mContext;
