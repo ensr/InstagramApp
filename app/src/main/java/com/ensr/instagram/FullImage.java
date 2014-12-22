@@ -107,12 +107,12 @@ public class FullImage extends Activity {
             createDirIfNotExists();
 
             try {
-                    m = loadInt();
-                    FileOutputStream fos = new FileOutputStream(path + "/instaStorage" + m + ".jpg");
-                    saveInt("key", savedValue + 1);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    fos.flush();
-                    fos.close();
+                m = loadInt();
+                FileOutputStream fos = new FileOutputStream(path + "/instaStorage" + m + ".jpg");
+                saveInt("key", savedValue + 1);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
 
             } catch (Exception e) {
                 Log.e("MyLog", e.toString());
