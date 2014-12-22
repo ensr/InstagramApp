@@ -1,15 +1,15 @@
 package com.ensr.instagram;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,12 +28,18 @@ import java.io.InputStream;
 public class FullImage extends Activity {
     
     Button download;
-    String url;
     ImageView imageView;
-    private Activity context = FullImage.this;
+
+
+    int savedValue;
+    static int m = 0;
+    static SharedPreferences sharedPreferences;
+    String url;
     String path = Environment
             .getExternalStorageDirectory()
             .toString()+"/InstaStorage";
+
+    private Activity context = FullImage.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +49,6 @@ public class FullImage extends Activity {
 
         imageView = (ImageView) findViewById(R.id.ivFullImage);
         download = (Button) findViewById(R.id.bDownload);
-
         Intent i = getIntent();
         
         //Resim url'si alınarak picasso ile ekrana basıldı
@@ -78,8 +83,8 @@ public class FullImage extends Activity {
         protected Bitmap doInBackground(String... URL) {
 
             String imageURL = URL[0];
-
             Bitmap bitmap = null;
+
             try {
                 // Download Image from URL
                 InputStream input = new java.net.URL(imageURL).openStream();
@@ -99,20 +104,15 @@ public class FullImage extends Activity {
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             Bitmap bitmap = drawable.getBitmap();
 
-            /*
-            MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,
-                    "InstagramImage", "instagramDownload");
-            */
-
             createDirIfNotExists();
 
             try {
-                FileOutputStream fos = new FileOutputStream(path + "deneme.jpg");
-
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-                fos.flush();
-                fos.close();
+                    m = loadInt();
+                    FileOutputStream fos = new FileOutputStream(path + "/instaStorage" + m + ".jpg");
+                    saveInt("key", savedValue + 1);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    fos.flush();
+                    fos.close();
 
             } catch (Exception e) {
                 Log.e("MyLog", e.toString());
@@ -135,6 +135,18 @@ public class FullImage extends Activity {
             }
         }
 
+    }
+
+    public void saveInt(String key, int value){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+    public int loadInt(){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        savedValue = sharedPreferences.getInt("key", 0);
+        return savedValue;
     }
 
 }
