@@ -38,9 +38,10 @@ public class Downloaded extends Activity {
 
         String ExternalStorageDirectoryPath = Environment
                 .getExternalStorageDirectory()
-                .getAbsolutePath();
+                .toString();
 
-        String targetPath = ExternalStorageDirectoryPath + "/Camera/";
+        String targetPath = ExternalStorageDirectoryPath + "/InstaStorage";
+
         //String targetPath = ExternalStorageDirectoryPath;
         Toast.makeText(getApplicationContext(), targetPath, Toast.LENGTH_LONG).show();
         File targetDirector = new File(targetPath);

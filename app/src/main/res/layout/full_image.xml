@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/ivFullImage"
-        android:layout_width="fill_parent"
-        android:layout_height="399dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="350dp" />
 
     <Button
         android:id="@+id/bDownload"
@@ -17,5 +17,10 @@
         android:text="Download"
         android:layout_gravity="center"
         />
+    <Button
+        android:id="@+id/bGetBack"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Back"/>
 
 </LinearLayout>

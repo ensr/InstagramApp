@@ -27,7 +27,7 @@ import java.io.InputStream;
  */
 public class FullImage extends Activity {
     
-    Button download;
+    Button download, back;
     ImageView imageView;
 
 
@@ -49,6 +49,7 @@ public class FullImage extends Activity {
 
         imageView = (ImageView) findViewById(R.id.ivFullImage);
         download = (Button) findViewById(R.id.bDownload);
+        back = (Button) findViewById(R.id.bGetBack);
         Intent i = getIntent();
         
         //Resim url'si alınarak picasso ile ekrana basıldı
@@ -60,6 +61,13 @@ public class FullImage extends Activity {
             @Override
             public void onClick(View v) {
                 new DownloadImage().execute(url);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
