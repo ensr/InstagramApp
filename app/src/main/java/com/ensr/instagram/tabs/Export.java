@@ -286,9 +286,4 @@ public class Export extends ActionBarActivity implements OnClickListener {
             }
         });
     }
-
-
-
-
-
 }
