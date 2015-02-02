@@ -2,17 +2,20 @@ package com.ensr.instagram.tabs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ensr.instagram.FullImage;
 import com.ensr.instagram.R;
 import com.ensr.instagram.adapters.dImageAdapter;
 
@@ -28,6 +31,7 @@ public class Downloaded extends Activity {
     ArrayList<String> f = new ArrayList<String>();
     File[] listFile;
     GridView indirilenler;
+    dImageAdapter dImageA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -37,8 +41,9 @@ public class Downloaded extends Activity {
         indirilenler = (GridView)findViewById(R.id.gvDownloaded);
         getFromSdcard();
 
-        dImageAdapter dImageA = new dImageAdapter(f,context);
+        dImageA = new dImageAdapter(f,context);
         indirilenler.setAdapter(dImageA);
+        getFullScreanByClick(indirilenler);
 
 
     }
@@ -54,6 +59,18 @@ public class Downloaded extends Activity {
                 f.add(listFile[i].getAbsolutePath());
             }
         }
+    }
+
+    private void getFullScreanByClick(GridView gw){
+        gw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getApplicationContext(), FullImage.class);
+                String url = (String)dImageA.getItem(position);
+                i.putExtra("id",url);
+                startActivity(i);
+            }
+        });
     }
 
 

@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -61,6 +63,7 @@ public class FullImage extends Activity {
             @Override
             public void onClick(View v) {
                 new DownloadImage().execute(url);
+                refresh();
             }
         });
 
@@ -113,6 +116,7 @@ public class FullImage extends Activity {
             Bitmap bitmap = drawable.getBitmap();
 
             createDirIfNotExists();
+            refresh();
 
             try {
                 m = loadInt();
@@ -157,4 +161,16 @@ public class FullImage extends Activity {
         return savedValue;
     }
 
+    public void refresh(){
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {*/
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            //File f = new File("folderPATH", "fileName"); //OR  File f = new File(YourCurrentPhotoPath);
+            File f = new File(path);
+            Uri contentUri = Uri.fromFile(f);
+            mediaScanIntent.setData(contentUri);
+            context.sendBroadcast(mediaScanIntent);
+     /*   } else {
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory() + "/" + "FOLDER_TO_REFRESH")));
+        }*/
+    }
 }

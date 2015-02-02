@@ -2,8 +2,12 @@ package com.ensr.instagram;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.widget.TabHost;
+
+import com.ensr.instagram.adapters.ImageAdapter;
 import com.ensr.instagram.tabs.Downloaded;
 import com.ensr.instagram.tabs.Export;
 import com.ensr.instagram.tabs.Url;
@@ -15,6 +19,7 @@ import net.hockeyapp.android.UpdateManager;
 public class MainActivity extends TabActivity {
 
     TabHost mTabHost;
+    private int boyut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,7 @@ public class MainActivity extends TabActivity {
         //Sekmelerin oluşturulması
         mTabHost.addTab(exportSpec);
         mTabHost.addTab(urlSpec);
-        mTabHost.addTab(downloadedSpec);
+        //mTabHost.addTab(downloadedSpec);
     }
 
     @Override

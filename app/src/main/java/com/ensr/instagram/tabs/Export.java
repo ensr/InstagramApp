@@ -3,8 +3,10 @@ package com.ensr.instagram.tabs;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 public class Export extends ActionBarActivity implements OnClickListener {
 
     private String url;
+    private String url2;
     private String userId;
     private Button btnSearch;
     private TextView tvFromThePicture;
@@ -47,20 +50,28 @@ public class Export extends ActionBarActivity implements OnClickListener {
     private ImageAdapter imageAdapter;
     private Gson gson;
     private GsonBuilder builder;
+    private int check;
+    public int screenSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.export);
 
-		etTagName = (EditText) findViewById(R.id.etTagsName);
-		gridView = (GridView) findViewById(R.id.grid_view);
-		tbTagAndUserName = (ToggleButton) findViewById(R.id.togglebutton);
-		btnSearch = (Button) findViewById(R.id.btnSearch);
-		btnSearch.setOnClickListener(this);
+        etTagName = (EditText) findViewById(R.id.etTagsName);
+        gridView = (GridView) findViewById(R.id.grid_view);
+        tbTagAndUserName = (ToggleButton) findViewById(R.id.togglebutton);
+        btnSearch = (Button) findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(this);
 
-		builder = new GsonBuilder();
-		gson = builder.create();
+        builder = new GsonBuilder();
+        gson = builder.create();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        //Point size = new Point();
+        //display.getSize(size);
+        screenSize = display.getWidth();
+        screenSize = ((screenSize / 3) - 15);
 
         getExportJsonData();
     }
@@ -69,6 +80,11 @@ public class Export extends ActionBarActivity implements OnClickListener {
     public void onClick(View v) {
         if (v == btnSearch) {
             onToggleClicked(tbTagAndUserName);
+            if (check == 1) {
+                getUserJsonData();
+            } else {
+                getTagJsonData();
+            }
         }
 
     }
@@ -77,9 +93,9 @@ public class Export extends ActionBarActivity implements OnClickListener {
         boolean on = ((ToggleButton) view).isChecked();
 
         if (on) {
-            getUserJsonData();
+            check = 1;
         } else {
-            getTagJsonData();
+            check = 0;
         }
     }
 
@@ -128,7 +144,7 @@ public class Export extends ActionBarActivity implements OnClickListener {
                             .show();
                 }
 
-                imageAdapter = new ImageAdapter(pictureUrl, context);
+                imageAdapter = new ImageAdapter(screenSize, pictureUrl, context);
                 gridView.setAdapter(imageAdapter);
                 getFullScreanByClick(gridView);
 
@@ -147,10 +163,41 @@ public class Export extends ActionBarActivity implements OnClickListener {
 
     }
 
-    private void getUserJsonData(){
+    private void getUserJsonData() {
         final ProgressDialog pDialog = new ProgressDialog(this);
 
-        getUserIdJsonData();
+        //userId responsu alınıyor
+        url2 = TContants.urlBeforeUserId + etTagName.getText().toString() + TContants.urlAfterUser;
+
+        JsonObjectRequest jsonObjReqForUser;
+        jsonObjReqForUser = new JsonObjectRequest(Method.GET, url2,
+                null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                pDialog.hide();
+                Custom.hideKeyboard(context);
+
+                TagsResponse gsonData = gson.fromJson(response.toString(),
+                        TagsResponse.class);
+
+                userId = gsonData.data[0].id.toString();
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(jsonObjReqForUser,
+                TContants.tag_json_obj);
+
+
+        ///////////////////////////////////////////////////////////////////
         url = TContants.urlBeforeUser + userId + TContants.urlAfterTag;
 
         JsonObjectRequest jsonObjReq;
@@ -162,7 +209,6 @@ public class Export extends ActionBarActivity implements OnClickListener {
                 pDialog.hide();
                 Custom.hideKeyboard(context);
                 getResponseParseWithGson(response);
-                //tvFromThePicture.setVisibility(View.GONE);
 
                 if (pictureUrl.size() == 0) {
 
@@ -181,7 +227,7 @@ public class Export extends ActionBarActivity implements OnClickListener {
                             .show();
                 }
 
-                imageAdapter = new ImageAdapter(pictureUrl, context);
+                imageAdapter = new ImageAdapter(screenSize, pictureUrl, context);
                 gridView.setAdapter(imageAdapter);
                 getFullScreanByClick(gridView);
 
@@ -201,7 +247,7 @@ public class Export extends ActionBarActivity implements OnClickListener {
 
     }
 
-    private void getUserIdJsonData(){
+    private String getUserIdJsonData() {
         final ProgressDialog pDialog = new ProgressDialog(this);
 
         url = TContants.urlBeforeUserId + etTagName.getText().toString()
@@ -230,9 +276,10 @@ public class Export extends ActionBarActivity implements OnClickListener {
         });
         AppController.getInstance().addToRequestQueue(jsonObjReq,
                 TContants.tag_json_obj);
+        return userId;
     }
 
-    private void getExportJsonData(){
+    private void getExportJsonData() {
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         JsonObjectRequest jsonObjReq;
@@ -246,7 +293,7 @@ public class Export extends ActionBarActivity implements OnClickListener {
                 Custom.hideKeyboard(context);
                 getResponseParseWithGson(response);
 
-                imageAdapter = new ImageAdapter(pictureUrl, context);
+                imageAdapter = new ImageAdapter(screenSize, pictureUrl, context);
                 gridView.setAdapter(imageAdapter);
                 getFullScreanByClick(gridView);
 
@@ -275,13 +322,13 @@ public class Export extends ActionBarActivity implements OnClickListener {
 
     }
 
-    private void getFullScreanByClick(GridView gw){
+    private void getFullScreanByClick(GridView gw) {
         gw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), FullImage.class);
-                String url = (String)imageAdapter.getItem(position);
-                i.putExtra("id",url);
+                String url = (String) imageAdapter.getItem(position);
+                i.putExtra("id", url);
                 startActivity(i);
             }
         });
