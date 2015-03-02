@@ -1,20 +1,22 @@
 package com.ensr.instagram.tabs;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.ensr.instagram.FullImage;
 import com.ensr.instagram.R;
-import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import java.io.IOException;
 
@@ -22,7 +24,7 @@ import java.io.IOException;
  * Created by ensr on 26.11.2014.
  */
 
-public class Url extends Activity {
+public class Url extends Activity{
 
     private EditText etUrl;
     private ImageView ivUrl;
@@ -48,27 +50,39 @@ public class Url extends Activity {
 
                 try {
                     getPicFromUrl(sharedPicPageUrl);
+                    displayImage();
 
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 }
+
+
             }
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private void getPicFromUrl(String picUrl) throws IOException {
 
+        //network işlemlerinin çalışabilmesi için eklendi.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         org.jsoup.nodes.Document doc = Jsoup.connect(picUrl).get();
-        Elements newsHeadlines = doc.select("div.utiImage Image");
-        sharedPicUrl = newsHeadlines.attr("src");
-/*
-        for (org.jsoup.nodes.Element el : newsHeadlines) {
-            sharedPicUrl = el.absUrl("src");
+        Elements a = doc.select("div[class=ResponsiveBlock lfFrame Frame UserTaggedImage]");
+        Elements newsHeadlines = a.select("div[class=utiImage Image]");
 
-        }
-        */
-            //sharedPicUrl = newsHeadlines.attr("src").toString();
-        Picasso.with(context).load(sharedPicUrl).into(ivUrl);
-
+        sharedPicUrl = newsHeadlines.attr("src").toString();
     }
+
+    private void displayImage(){
+        Intent i = new Intent(getApplicationContext(), FullImage.class);
+        String a = "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-15/10932035_1518102041790199_1001074739_n.jpg";
+        i.putExtra("id", sharedPicUrl);
+        startActivity(i);
+    }
+
 }
+
+
