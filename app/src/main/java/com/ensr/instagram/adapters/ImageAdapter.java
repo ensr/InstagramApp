@@ -17,10 +17,7 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     ArrayList<String> pictureUrl;
     Context mContext;
-    public int boyut;
     int size;
-    int x;
-
 
     public ImageAdapter(int screenSize, ArrayList<String> pictureUrl, Context mContext) {
         this.pictureUrl = pictureUrl;
@@ -48,13 +45,11 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ImageView imageView = new ImageView(mContext);
         Picasso.with(mContext).load(pictureUrl.get(position)).into(imageView);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-
-
-        //x = getSize();
         imageView.setLayoutParams(new GridView.LayoutParams(size, size));
         return imageView;
     }

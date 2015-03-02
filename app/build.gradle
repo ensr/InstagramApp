@@ -26,4 +26,6 @@ dependencies {
     compile files('libs/picasso-2.3.4.jar')
     compile files('libs/volley.jar')
     compile files('libs/HockeySDK-3.0.2.jar')
+    //compile files('libs/jsoup-1.8.1-sources.jar')
+    compile files('libs/jsoup-1.8.1.jar')
 }

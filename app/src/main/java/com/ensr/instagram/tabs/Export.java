@@ -3,7 +3,6 @@ package com.ensr.instagram.tabs;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
@@ -41,7 +40,6 @@ public class Export extends ActionBarActivity implements OnClickListener {
     private String url2;
     private String userId;
     private Button btnSearch;
-    private TextView tvFromThePicture;
     private ArrayList<String> pictureUrl;
     private EditText etTagName;
     private ToggleButton tbTagAndUserName;
@@ -53,6 +51,9 @@ public class Export extends ActionBarActivity implements OnClickListener {
     private int check;
     public int screenSize;
 
+    public Export() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,7 @@ public class Export extends ActionBarActivity implements OnClickListener {
         etTagName = (EditText) findViewById(R.id.etTagsName);
         gridView = (GridView) findViewById(R.id.grid_view);
         tbTagAndUserName = (ToggleButton) findViewById(R.id.togglebutton);
+
         btnSearch = (Button) findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(this);
 
@@ -68,8 +70,7 @@ public class Export extends ActionBarActivity implements OnClickListener {
         gson = builder.create();
 
         Display display = getWindowManager().getDefaultDisplay();
-        //Point size = new Point();
-        //display.getSize(size);
+
         screenSize = display.getWidth();
         screenSize = ((screenSize / 3) - 15);
 
@@ -333,4 +334,5 @@ public class Export extends ActionBarActivity implements OnClickListener {
             }
         });
     }
+
 }

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".tabs.Url">
+    tools:context=".tabs.Url"
+    android:weightSum="1">
     <LinearLayout
         android:id="@+id/lltags"
         android:layout_width="fill_parent"
@@ -48,16 +49,17 @@
         android:orientation="horizontal" >
 
         <GridView
+            android:numColumns="3"
             android:id="@+id/grid_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:columnWidth="90dp"
-            android:numColumns="auto_fit"
             android:verticalSpacing="5dp"
             android:horizontalSpacing="5dp"
             android:stretchMode="columnWidth"
             android:gravity="center" >
         </GridView>
     </LinearLayout>
+
 
 </LinearLayout>
